@@ -25,21 +25,18 @@
         // https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/
         private static HttpClient _httpClient;
         
-        public static Func<HttpClient>? HttpClientFactory { get; set; }
-        
         private static HttpClient GetHttpClient()
         {
-            if (HttpClientFactory != null)
+            if (FeedReader.HttpClientFactory != null)
             {
-                return HttpClientFactory();
+                return FeedReader.HttpClientFactory();
             }
 
-            if (_httpClient == null)
-            {
-                _httpClient = new HttpClient();
-                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(ACCEPT_HEADER_NAME, ACCEPT_HEADER_VALUE);
-                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(USER_AGENT_NAME, USER_AGENT_VALUE);
-            }
+            if (_httpClient != null) return _httpClient;
+            // Create a new HttpClient instance with default headers:
+            _httpClient = new HttpClient();
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(ACCEPT_HEADER_NAME, ACCEPT_HEADER_VALUE);
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(USER_AGENT_NAME, USER_AGENT_VALUE);
             return _httpClient;
         }
 

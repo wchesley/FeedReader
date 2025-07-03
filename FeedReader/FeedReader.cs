@@ -22,6 +22,11 @@
     public static class FeedReader
     {
         /// <summary>
+        /// Get or set the HttpClient factory to create a new HttpClient instance. This allows use of a custom HttpClient. If one is not set, a default HttpClient will be used.
+        /// </summary>
+        public static Func<HttpClient>? HttpClientFactory { get; set; }
+        
+        /// <summary>
         /// gets a url (with or without http) and returns the full url
         /// </summary>
         /// <param name="url">url with or without http</param>
