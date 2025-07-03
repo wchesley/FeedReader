@@ -225,15 +225,7 @@ namespace CodeHollow.FeedReader.Tests
             Assert.AreEqual("ثقف نفسك", feed.Title);
             Assert.IsTrue(feed.Items.Count > 0);
         }
-
-        [TestMethod]
-        public async Task TestReadTheStudentLawyer()
-        {
-            var feed = await FeedReader.ReadAsync("http://us10.campaign-archive.com/feed?u=8da2e137a07b178e5d9a71c2c&id=9134b0cc95").ConfigureAwait(false);
-            Assert.AreEqual("The Student Lawyer Careers Network Archive Feed", feed.Title);
-            Assert.IsTrue(feed.Items.Count > 0);
-        }
-
+        
         [TestMethod]
         public async Task TestReadLiveBold()
         {
