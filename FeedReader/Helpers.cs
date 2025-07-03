@@ -57,9 +57,8 @@
         /// <param name="url">correct url</param>
         /// <param name="cancellationToken">token to cancel operation</param>
         /// <param name="autoRedirect">autoredirect if page is moved permanently</param>
-        /// <param name="userAgent">override built-in user-agent header</param>
         /// <returns>Content as byte array</returns>
-        public static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string userAgent = USER_AGENT_VALUE)
+        public static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true)
         {
             if (_httpClient == null)
             {
@@ -69,9 +68,6 @@
             HttpResponseMessage response;
             using (var request = new HttpRequestMessage(HttpMethod.Get, url))
             {
-                request.Headers.TryAddWithoutValidation(ACCEPT_HEADER_NAME, ACCEPT_HEADER_VALUE);
-                request.Headers.TryAddWithoutValidation(USER_AGENT_NAME, userAgent);
-
                 response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
             }
             if (!response.IsSuccessStatusCode)
