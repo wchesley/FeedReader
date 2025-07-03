@@ -54,11 +54,11 @@ namespace CodeHollow.FeedReader.Tests
         }
 
         [TestMethod]
-        public async Task TestParseRssLinksHeise() { await TestParseRssLinksAsync("http://heise.de/", 2).ConfigureAwait(false); }
+        public async Task TestParseRssLinksHeise() { await TestParseRssLinksAsync("https://www.heise.de/rss", 2).ConfigureAwait(false); }
         [TestMethod]
-        public async Task TestParseRssLinksHeise2() { await TestParseRssLinksAsync("heise.de", 2).ConfigureAwait(false); }
+        public async Task TestParseRssLinksHeise2() { await TestParseRssLinksAsync("heise.de/rss", 2).ConfigureAwait(false); }
         [TestMethod]
-        public async Task TestParseRssLinksHeise3() { await TestParseRssLinksAsync("www.heise.de", 2).ConfigureAwait(false); }
+        public async Task TestParseRssLinksHeise3() { await TestParseRssLinksAsync("www.heise.de/rss", 2).ConfigureAwait(false); }
         [TestMethod]
         public async Task TestParseRssLinksNYTimes() { await TestParseRssLinksAsync("nytimes.com", 1).ConfigureAwait(false); }
 
