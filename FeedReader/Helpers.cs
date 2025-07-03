@@ -23,12 +23,25 @@
 
         // The HttpClient instance must be a static field
         // https://aspnetmonsters.com/2016/08/2016-08-27-httpclientwrong/
-        private static readonly HttpClient _httpClient = new HttpClient(
-            new HttpClientHandler
+        private static HttpClient _httpClient;
+        
+        public static Func<HttpClient>? HttpClientFactory { get; set; }
+        
+        private static HttpClient GetHttpClient()
+        {
+            if (HttpClientFactory != null)
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                return HttpClientFactory();
             }
-        );
+
+            if (_httpClient == null)
+            {
+                _httpClient = new HttpClient();
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(ACCEPT_HEADER_NAME, ACCEPT_HEADER_VALUE);
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(USER_AGENT_NAME, USER_AGENT_VALUE);
+            }
+            return _httpClient;
+        }
 
         /// <summary>
         /// Download the content from an url
@@ -51,6 +64,10 @@
         /// <returns>Content as byte array</returns>
         public static async Task<byte[]> DownloadBytesAsync(string url, CancellationToken cancellationToken, bool autoRedirect = true, string userAgent = USER_AGENT_VALUE)
         {
+            if (_httpClient == null)
+            {
+                _httpClient = GetHttpClient();
+            }
             url = System.Net.WebUtility.UrlDecode(url);
             HttpResponseMessage response;
             using (var request = new HttpRequestMessage(HttpMethod.Get, url))
